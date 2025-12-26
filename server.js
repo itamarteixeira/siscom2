@@ -275,14 +275,13 @@ async function extrairDadosPDF(pdfBuffer) {
   }
 }
 
+
 // Função para extrair dados do XML da NF-e
 async function extrairDadosXML(xmlContent) {
   const parser = new xml2js.Parser({ explicitArray: false });
   
   try {
     const result = await parser.parseStringPromise(xmlContent);
-    
-    // Navegar pela estrutura do XML da NF-e
     const nfe = result.nfeProc?.NFe?.infNFe || result.NFe?.infNFe;
     
     if (!nfe) {
@@ -295,7 +294,6 @@ async function extrairDadosXML(xmlContent) {
     const total = nfe.total?.ICMSTot;
     const cobr = nfe.cobr;
 
-    // Extrair duplicatas
     let duplicatas = [];
     if (cobr?.dup) {
       const dups = Array.isArray(cobr.dup) ? cobr.dup : [cobr.dup];
@@ -308,46 +306,6 @@ async function extrairDadosXML(xmlContent) {
 
     const valorTotal = parseFloat(total?.vNF || 0);
 
-    // Se não houver duplicatas e houver valor total, criar duplicata padrão
-    if (duplicatas.length === 0 && valorTotal > 0) {
-      const vencimento30dias = new Date();
-      vencimento30dias.setDate(vencimento30dias.getDate() + 30);
-      duplicatas.push({
-
-// Função para extrair dados do XML da NF-e
-async function extrairDadosXML(xmlContent) {
-  const parser = new xml2js.Parser({ explicitArray: false });
-  
-  try {
-    const result = await parser.parseStringPromise(xmlContent);
-    
-    // Navegar pela estrutura do XML da NF-e
-    const nfe = result.nfeProc?.NFe?.infNFe || result.NFe?.infNFe;
-    
-    if (!nfe) {
-      throw new Error('Estrutura XML inválida');
-    }
-
-    const ide = nfe.ide;
-    const emit = nfe.emit;
-    const dest = nfe.dest;
-    const total = nfe.total?.ICMSTot;
-    const cobr = nfe.cobr;
-
-    // Extrair duplicatas
-    let duplicatas = [];
-    if (cobr?.dup) {
-      const dups = Array.isArray(cobr.dup) ? cobr.dup : [cobr.dup];
-      duplicatas = dups.map(dup => ({
-        numero: dup.nDup,
-        valor: parseFloat(dup.vDup),
-        vencimento: dup.dVenc
-      }));
-    }
-
-    const valorTotal = parseFloat(total?.vNF || 0);
-
-    // Se não houver duplicatas e houver valor total, criar duplicata padrão
     if (duplicatas.length === 0 && valorTotal > 0) {
       const vencimento30dias = new Date();
       vencimento30dias.setDate(vencimento30dias.getDate() + 30);
