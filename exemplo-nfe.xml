@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- EXEMPLO DE NF-e SIMPLIFICADO PARA TESTES -->
+<nfeProc>
+  <NFe>
+    <infNFe Id="NFe35241234567890123456789012345678901234567890">
+      <ide>
+        <nNF>000123</nNF>
+        <serie>1</serie>
+        <dhEmi>2024-12-26T10:00:00-03:00</dhEmi>
+      </ide>
+      <emit>
+        <xNome>EMPRESA EXEMPLO LTDA</xNome>
+        <CNPJ>12345678000190</CNPJ>
+      </emit>
+      <dest>
+        <xNome>CLIENTE EXEMPLO</xNome>
+        <CNPJ>98765432000100</CNPJ>
+      </dest>
+      <total>
+        <ICMSTot>
+          <vNF>5000.00</vNF>
+        </ICMSTot>
+      </total>
+      <cobr>
+        <dup>
+          <nDup>001</nDup>
+          <dVenc>2025-01-15</dVenc>
+          <vDup>2500.00</vDup>
+        </dup>
+        <dup>
+          <nDup>002</nDup>
+          <dVenc>2025-02-15</dVenc>
+          <vDup>2500.00</vDup>
+        </dup>
+      </cobr>
+    </infNFe>
+  </NFe>
+</nfeProc>
