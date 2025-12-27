@@ -12,10 +12,39 @@ const upload = multer({ dest: 'uploads/' });
 app.use(express.json());
 app.use(express.static('public'));
 
+// ============================================
+// DEBUG: MOSTRAR TODAS AS VARIÁVEIS
+// ============================================
+console.log('');
+console.log('='.repeat(60));
+console.log('🔍 DEBUG - VARIÁVEIS DE AMBIENTE');
+console.log('='.repeat(60));
+console.log('DATABASE_PRIVATE_URL:', process.env.DATABASE_PRIVATE_URL ? '✅ EXISTE' : '❌ NÃO EXISTE');
+console.log('DATABASE_PUBLIC_URL:', process.env.DATABASE_PUBLIC_URL ? '✅ EXISTE' : '❌ NÃO EXISTE');
+console.log('DATABASE_URL:', process.env.DATABASE_URL ? '✅ EXISTE' : '❌ NÃO EXISTE');
+console.log('');
+
+if (process.env.DATABASE_PRIVATE_URL) {
+  console.log('📋 Valor (primeiros 50 chars):', process.env.DATABASE_PRIVATE_URL.substring(0, 50) + '...');
+}
+
+console.log('');
+console.log('📦 Todas variáveis com DATABASE ou PG:');
+Object.keys(process.env)
+  .filter(k => k.includes('DATABASE') || k.includes('PG'))
+  .forEach(k => console.log(`  - ${k}: ${k.includes('PASSWORD') ? '***' : 'existe'}`));
+console.log('='.repeat(60));
+console.log('');
+// ============================================
+
 // PostgreSQL Pool Connection
 const pool = new Pool({
   connectionString: process.env.DATABASE_PRIVATE_URL,
   ssl: process.env.DATABASE_PRIVATE_URL ? { rejectUnauthorized: false } : false
+});
+
+  connectionString: databaseUrl,
+  ssl: databaseUrl ? { rejectUnauthorized: false } : false
 });
 
 // Test connection
